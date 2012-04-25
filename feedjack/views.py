@@ -11,7 +11,7 @@ from django.utils import feedgenerator
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from django.utils.cache import patch_vary_headers
-from django.template import Context, loader
+from django.template import Context, loader, RequestContext
 
 from feedjack import models
 from feedjack import fjlib
@@ -140,7 +140,7 @@ def mainview(request, tag=None, user=None):
       sfeeds_ids))
 
     response = render_to_response('feedjack/%s/post_list.html' % \
-      (site.template), ctx)
+      (site.template), ctx, context_instance=RequestContext(request))
     
     # per host caching, in case the cache middleware is enabled
     patch_vary_headers(response, ['Host'])
