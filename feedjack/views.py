@@ -28,7 +28,11 @@ def initview(request):
     5. The feeds for the site (ids)
     """
 
-    site_id, cachekey = fjlib.getcurrentsite(request.META['HTTP_HOST'], \
+    host = '/'
+    if 'HTTP_HOST' in request.META:
+        host = request.META['HTTP_HOST']
+
+    site_id, cachekey = fjlib.getcurrentsite(host, \
       request.META.get('REQUEST_URI', request.META.get('PATH_INFO', '/')), \
       request.META['QUERY_STRING'])
     response = fjcache.cache_get(site_id, cachekey)
